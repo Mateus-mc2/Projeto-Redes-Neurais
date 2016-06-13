@@ -28,12 +28,13 @@ testInputs = testSet(1:numTest, 1:numInputs)';
 testOutputs = testSet(1:numTest, (numInputs + 1):(numInputs + numOutputs))';
 
 %   Criando a rede (para ajuda, digite 'help newff')
+intervalMatrix = zeros(numInputs, 2);
 
 for entrada = 1 : numInputs;  % Cria 'matrizFaixa', que possui 'numEntradas' linhas, cada uma sendo igual a [0 1].
-     matrizFaixa(entrada,:) = [0 1];  
+     intervalMatrix(entrada,:) = [0 1];  
 end
 
-net = newff(matrizFaixa,[numHidden numOutputs],{'tansig','tansig'},'traingdm','learngdm','mse');
+net = newff(intervalMatrix,[numHidden numOutputs],{'tansig','tansig'},'traingdm','learngdm','mse');
 % matrizFaixa                    : indica que todas as entradas possuem valores na faixa entre 0 e 1
 % [numEscondidos numSaidas]      : indica a quantidade de nodos escondidos e de saida da rede
 % {'logsig','logsig'}            : indica que os nodos das camadas escondida e de saida terao funcao de ativacao sigmoide logistica
