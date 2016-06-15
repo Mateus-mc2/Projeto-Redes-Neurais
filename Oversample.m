@@ -1,4 +1,4 @@
-function [set] = Oversample(minorSet, majorSize, minorSize)
+function [set] = oversample(minorSet, majorSize, minorSize)
 %OVERSAMPLE Summary of this function goes here
 %   Detailed explanation goes here
     quotient = floor(majorSize / minorSize);

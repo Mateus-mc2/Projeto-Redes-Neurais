@@ -15,7 +15,6 @@ function syntheticData = SMOTE(samples, N, k)
     syntheticData = zeros(T*N, size(samples, 2));
     
     for i = 1:T
-        % TODO: implementar o k-NN.
         nnarray = kNN(samples, i, k);
         aux = N;
         

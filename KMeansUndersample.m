@@ -1,4 +1,4 @@
-function set = KMeansUndersample(majorityClass, minorityClass, k, m)
+function set = kMeansUndersample(majorityClass, minorityClass, k, m)
 %KMEANSUNDERSAMPLING Summary of this function goes here
 %   Detailed explanation goes here
 
