@@ -11,7 +11,7 @@ function syntheticData = SMOTE(samples, N, k)
     end
     
     N = floor(N/100);
-    index = 0;
+    index = 1;
     syntheticData = zeros(T*N, size(samples, 2));
     
     for i = 1:T
@@ -24,6 +24,7 @@ function syntheticData = SMOTE(samples, N, k)
            delta = rand();
            syntheticData(index,:) = samples(i,:) + delta*diff;
            index = index + 1;
+           aux = aux - 1;
         end
     end
 end

@@ -10,8 +10,7 @@ function nnarray = kNN(samples, i, k)
         distances(i) = norm(sample - samples(j,:));
     end
     
-    [~, sortedIdxs] = sort(distances);
-    sortedSamples = samples(sortedIdxs, :);
-    nnarray = sortedSamples(1:k, :);
+    [~, nnarray] = sort(distances);
+    nnarray = nnarray(1:k);
 end
 

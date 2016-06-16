@@ -3,7 +3,7 @@ clc;
 close all;
 
 %% Parameters.
-balancingMethod = 1;
+balancingMethod = 2;
 
 %% Getting data from both classes.
 filename = 'PAKDD-PAKDD_GERMANO.cod';
@@ -51,6 +51,11 @@ elseif balancingMethod == 1
 % %     majorTestSet = kMeansUndersample(majorTestSet, minorTestSet, k, m);
     [~, majorTrSet] = kmeans(majorTrSet, minorTrSetSize);
     [~, majorValSet] = kmeans(majorValSet, minorValSetSize);
+elseif balancingMethod == 2
+    k = 3;
+    
+    minorTrSet = SMOTE(minorTrSet, 100*floor(majorTrSetSize / minorTrSetSize), k);
+    minorValSet = SMOTE(minorValSet, 100*floor(majorValSetSize / minorValSetSize), k);
 end
 
 % Building training, validation and data sets with balanced sets.
