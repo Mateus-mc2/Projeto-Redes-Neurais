@@ -7,9 +7,9 @@ close all
 numInputs = 46;     % Numero de nodos de entrada
 numHidden = 5;      % Numero de nodos escondidos
 numOutputs = 2;     % Numero de nodos de saida
-numTr = 40000;      % Numero de padroes de treinamento
-numVal = 20000;     % Numero de padroes de validacao
-numTest = 20000;    % Numero de padroes de teste
+numTr = 39950;      % Numero de padroes de treinamento
+numVal = 19975;     % Numero de padroes de validacao
+numTest = 10175;    % Numero de padroes de teste
 
 echo off
 

@@ -7,10 +7,12 @@ function nnarray = kNN(samples, i, k)
     
     for j = 1:n
         % Euclidian distance.
-        distances(i) = norm(sample - samples(j,:));
+        distances(j) = norm(sample - samples(j,:));
     end
     
     [~, nnarray] = sort(distances);
-    nnarray = nnarray(1:k);
+    % Since the i-th sample will always appear on the first index,
+    % it is necessary to start from the "second" neighbor.
+    nnarray = nnarray(2:k+1);
 end
 
