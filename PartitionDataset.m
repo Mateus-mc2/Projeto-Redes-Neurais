@@ -3,7 +3,7 @@ clc;
 close all;
 
 %% Parameters.
-balancingMethod = 2;
+balancingMethod = 3;
 
 %% Getting data from both classes.
 filename = 'PAKDD-PAKDD_GERMANO.cod';
@@ -54,8 +54,13 @@ elseif balancingMethod == 1
 elseif balancingMethod == 2
     k = 3;
     
-    minorTrSet = SMOTE(minorTrSet, 100*floor(majorTrSetSize / minorTrSetSize), k);
-    minorValSet = SMOTE(minorValSet, 100*floor(majorValSetSize / minorValSetSize), k);
+    minorTrSet = SMOTE(minorTrSet, 100*(floor(majorTrSetSize / minorTrSetSize)-1), k);
+    minorValSet = SMOTE(minorValSet, 100*(floor(majorValSetSize / minorValSetSize)-1), k);
+elseif balancingMethod == 3
+    k = 3;
+    
+    minorTrSet = AdaptedSMOTE(majorTrSet, minorTrSet, 100*(floor(majorTrSetSize / minorTrSetSize)-1), k);
+    minorValSet = AdaptedSMOTE(majorValSet, minorValSet, 100*(floor(majorValSetSize / minorValSetSize)-1), k);
 end
 
 % Building training, validation and data sets with balanced sets.

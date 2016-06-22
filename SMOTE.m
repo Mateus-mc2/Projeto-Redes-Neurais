@@ -1,4 +1,4 @@
-function syntheticData = SMOTE(samples, N, k)
+function output = SMOTE(samples, N, k)
 %SMOTE Summary of this function goes here
 %   Detailed explanation goes here
     T = size(samples, 1);
@@ -21,11 +21,15 @@ function syntheticData = SMOTE(samples, N, k)
         while aux > 0
            nn = randi(k);
            diff = samples(nnarray(nn),:) - samples(i,:);
-           delta = rand();
-           syntheticData(index,:) = samples(i,:) + delta*diff;
+           gap = rand();
+           syntheticData(index,:) = samples(i,:) + gap*diff;
            index = index + 1;
            aux = aux - 1;
         end
     end
+    
+    output = [syntheticData; samples];
+    p = randperm(size(output, 1));
+    output = output(p,:);
 end
 

@@ -16,9 +16,9 @@ function set = kMeansUndersample(majorityClass, minorityClass, k, m)
     
     for i = 1:k
        cluster = data(idxs == i,:);
-       MA{i} = cluster(find(cluster(:,end)), :);
+       MA{i} = cluster(cluster(:,end) == 0, :);
        sizesMA(i) = size(MA{i}, 1);
-       MI{i} = cluster(find(cluster(:,end) == 0), :);
+       MI{i} = cluster(cluster(:,end) == 1, :);
        
        if size(MI{i}, 1) == 0
            sizesMI(i) = 1;
