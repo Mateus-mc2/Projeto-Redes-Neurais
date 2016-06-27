@@ -87,6 +87,13 @@ fprintf('MSE para o conjunto de treinamento: %6.5f \n',performance.perf(length(p
 fprintf('MSE para o conjunto de validacao: %6.5f \n',performance.vperf(length(performance.vperf)));
 fprintf('MSE para o conjunto de teste: %6.5f \n',testPerformance);
 
+%     Calculando a matriz de confusão e a curva ROC referente aos resultados gerados pela
+%     rede acima.
+[~, C, ~, per] = confusion(testOutputs, netTestOutputs);
+disp(C);
+
+%[tpr, fpr, thresholds] = roc(testOutputs, netTestOutputs);
+
 %     Calculando o erro de classificacao para o conjunto de teste
 %     (A regra de classificacao e' winner-takes-all, ou seja, o nodo de saida que gerar o maior valor de saida
 %      corresponde a classe do padrao).
