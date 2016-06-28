@@ -1,4 +1,4 @@
-function output = AdaptedSMOTE(samplesMajority, samplesMinority, N, k)
+function output = adaptedSMOTE(samplesMajority, samplesMinority, N, k)
 %ADAPTEDSMOTE Summary of this function goes here
 %   Detailed explanation goes here
     S = size(samplesMajority, 1);
@@ -35,8 +35,6 @@ function output = AdaptedSMOTE(samplesMajority, samplesMinority, N, k)
         end
     end
     
-    output = [syntheticData; samplesMinority];
-    p = randperm(size(output, 1));
-    output = output(p,:);
+    output = shuffle([syntheticData; samplesMinority]);
 end
 

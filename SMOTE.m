@@ -28,8 +28,6 @@ function output = SMOTE(samples, N, k)
         end
     end
     
-    output = [syntheticData; samples];
-    p = randperm(size(output, 1));
-    output = output(p,:);
+    output = shuffle([syntheticData; samples]);
 end
 

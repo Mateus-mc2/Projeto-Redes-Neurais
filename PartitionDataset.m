@@ -11,13 +11,8 @@ filename = 'PAKDD-PAKDD_GERMANO.cod';
 majorityClassIdxs = find(data(:,end));
 minorityClassIdxs = find(data(:,end) == 0);
 
-majorityClass = data(majorityClassIdxs, 2:end);
-minorityClass = data(minorityClassIdxs, 2:end);
-permMajorityClass = randperm(size(majorityClassIdxs, 1))';
-permMinorityClass = randperm(size(minorityClassIdxs, 1))';
-
-majorityClass = majorityClass(permMajorityClass,:);
-minorityClass = minorityClass(permMinorityClass,:);
+majorityClass = shuffle(data(majorityClassIdxs, 2:end));
+minorityClass = shuffle(data(minorityClassIdxs, 2:end));
 
 %% Partitioning into training, validation and test sets.
 majorTrSetSize = floor(0.5*size(majorityClass, 1));
@@ -59,14 +54,14 @@ elseif balancingMethod == 2
 elseif balancingMethod == 3
     k = 3;
     
-    minorTrSet = AdaptedSMOTE(majorTrSet, minorTrSet, 100*(floor(majorTrSetSize / minorTrSetSize)-1), k);
-    minorValSet = AdaptedSMOTE(majorValSet, minorValSet, 100*(floor(majorValSetSize / minorValSetSize)-1), k);
+    minorTrSet = adaptedSMOTE(majorTrSet, minorTrSet, 100*(floor(majorTrSetSize / minorTrSetSize)-1), k);
+    minorValSet = adaptedSMOTE(majorValSet, minorValSet, 100*(floor(majorValSetSize / minorValSetSize)-1), k);
 end
 
 % Building training, validation and data sets with balanced sets.
-trainingSet = [majorTrSet; minorTrSet];
-validationSet = [majorValSet; minorValSet];
-testSet = [majorTestSet; minorTestSet];
+trainingSet = shuffle([majorTrSet; minorTrSet]);
+validationSet = shuffle([majorValSet; minorValSet]);
+testSet = shuffle([majorTestSet; minorTestSet]);
 
 save('training.mat', 'trainingSet');
 save('validation.mat', 'validationSet');
