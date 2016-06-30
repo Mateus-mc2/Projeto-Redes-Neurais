@@ -31,8 +31,8 @@ minorTrSet = minorityClass(1:minorTrSetSize,:);
 minorValSet = minorityClass(minorTrSetSize+1:minorTrSetSize+minorValSetSize,:);
 minorTestSet = minorityClass(minorTrSetSize+minorValSetSize+1:end,:);
 
+%% Balancing classes.
 if balancingMethod == 0
-    %% Balancing minority class by oversampling.
     minorTrSet = oversample(minorTrSet, majorTrSetSize, minorTrSetSize);
     minorValSet = oversample(minorValSet, majorValSetSize, minorValSetSize);
 %     minorTestSet = Oversample(minorTestSet, majorTestSetSize, minorTestSetSize);
@@ -41,11 +41,14 @@ elseif balancingMethod == 1
 %     k = 1;
 %     m = 1;
 %     
-%     majorTrSet = kMeansUndersample(majorTrSet, minorTrSet, k, m);
-%     majorValSet = kMeansUndersample(majorValSet, minorValSet, k, m);
+%     majorTrSet = kMeansUndersample(majorTrSet, minorTrSet, minorTrSetSize, m);
+%     majorValSet = kMeansUndersample(majorValSet, minorValSet, minorValSetSize, m);
 % %     majorTestSet = kMeansUndersample(majorTestSet, minorTestSet, k, m);
-    [~, majorTrSet] = kmeans(majorTrSet, minorTrSetSize);
-    [~, majorValSet] = kmeans(majorValSet, minorValSetSize);
+    [~, majorTrSetAttrs] = kmeans(majorTrSet(:,1:end-2), minorTrSetSize);
+    [~, majorValSetAttrs] = kmeans(majorValSet(:,1:end-2), minorValSetSize);
+    
+    majorTrSet = [majorTrSetAttrs, majorTrSet(1:size(majorTrSetAttrs, 1),end-1:end)];
+    majorValSet = [majorValSetAttrs, majorValSet(1:size(majorValSetAttrs, 1),end-1:end)];
 elseif balancingMethod == 2
     k = 3;
     

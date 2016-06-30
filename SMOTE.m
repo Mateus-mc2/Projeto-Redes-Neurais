@@ -20,9 +20,10 @@ function output = SMOTE(samples, N, k)
         
         while aux > 0
            nn = randi(k);
-           diff = samples(nnarray(nn),:) - samples(i,:);
+           dif = samples(nnarray(nn),1:end-2) - samples(i,1:end-2);
            gap = rand();
-           syntheticData(index,:) = samples(i,:) + gap*diff;
+           syntheticData(index,1:end-2) = samples(i,1:end-2) + gap*dif;
+           syntheticData(index,end-1:end) = samples(i,end-1:end);
            index = index + 1;
            aux = aux - 1;
         end

@@ -28,8 +28,9 @@ function output = adaptedSMOTE(samplesMajority, samplesMinority, N, k)
                 gap = 0.5*gap;
             end
             
-            diff = samples(nnarray(nn),:) - samples(i,:);
-            syntheticData(index,:) = samples(i,:) + gap*diff;
+            dif = samples(nnarray(nn),1:end-2) - samples(i,1:end-2);
+            syntheticData(index,1:end-2) = samples(i,1:end-2) + gap*dif;
+            syntheticData(index,end-1:end) = samples(i,end-1:end);
             index = index + 1;
             aux = aux - 1;
         end
