@@ -48,7 +48,7 @@ net = init(net);
 echo on
 %   Parametros do treinamento (para ajuda, digite 'help traingd')
 net.trainParam.epochs   = 10000;    % Maximo numero de iteracoes
-net.trainParam.lr       = 0.6;      % Taxa de aprendizado
+net.trainParam.lr       = 0.2;      % Taxa de aprendizado
 net.trainParam.goal     = 0;        % Criterio de minimo erro de treinamento
 net.trainParam.max_fail = 10;       % Criterio de quantidade maxima de falhas na validacao
 net.trainParam.min_grad = 0;        % Criterio de gradiente minimo
@@ -95,8 +95,8 @@ hold on;
 disp(C);
 plotconfusion(testOutputs, netTestOutputs);
 plotroc(testOutputs, netTestOutputs);
-[tpr, ~, ~] = roc(testOutputs, netTestOutputs);
-fprintf('AUC: %6.5f \n', trapz(tpr{1,2}, tpr{1,1}));
+[tpr, fpr, ~] = roc(testOutputs, netTestOutputs);
+fprintf('AUC: %6.5f \n', trapz(fpr{1,1}, tpr{1,1}));
 
 hold off;
 
