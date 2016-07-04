@@ -6,7 +6,7 @@ function nnarray = kNN(samples, i, k)
     distances = zeros(n, 1);
     
     for j = 1:n
-        % Euclidian distance.
+        % Euclidean distance.
         distances(j) = norm(sample - samples(j,:));
     end
     
