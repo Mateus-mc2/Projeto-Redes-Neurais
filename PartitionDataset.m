@@ -3,7 +3,7 @@ clc;
 close all;
 
 %% Parameters.
-balancingMethod = 3;
+balancingMethod = 0;
 
 %% Getting data from both classes.
 filename = 'PAKDD-PAKDD_GERMANO.cod';

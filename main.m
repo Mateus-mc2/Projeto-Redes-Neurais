@@ -5,10 +5,10 @@ close all
 
 %    Informacoes sobre a rede e os dados
 numInputs = 46;     % Numero de nodos de entrada
-numHidden = 5;      % Numero de nodos escondidos
+numHidden = 10;      % Numero de nodos escondidos
 numOutputs = 2;     % Numero de nodos de saida
-numTr = 39950;      % Numero de padroes de treinamento
-numVal = 19975;     % Numero de padroes de validacao
+numTr = 40000;      % Numero de padroes de treinamento
+numVal = 20000;     % Numero de padroes de validacao
 numTest = 10175;    % Numero de padroes de teste
 
 echo off
@@ -34,7 +34,7 @@ for entrada = 1 : numInputs;  % Cria 'matrizFaixa', que possui 'numEntradas' lin
      intervalMatrix(entrada,:) = [0 1];  
 end
 
-net = newff(intervalMatrix,[numHidden numOutputs],{'tansig','tansig'},'traingdm','learngdm','mse');
+net = newff(intervalMatrix,[numHidden numOutputs],{'tansig','tansig'},'trainlm','learngd','mse');
 % matrizFaixa                    : indica que todas as entradas possuem valores na faixa entre 0 e 1
 % [numEscondidos numSaidas]      : indica a quantidade de nodos escondidos e de saida da rede
 % {'logsig','logsig'}            : indica que os nodos das camadas escondida e de saida terao funcao de ativacao sigmoide logistica
@@ -48,12 +48,12 @@ net = init(net);
 echo on
 %   Parametros do treinamento (para ajuda, digite 'help traingd')
 net.trainParam.epochs   = 10000;    % Maximo numero de iteracoes
-net.trainParam.lr       = 0.2;  % Taxa de aprendizado
-net.trainParam.goal     = 0;      % Criterio de minimo erro de treinamento
-net.trainParam.max_fail = 10;      % Criterio de quantidade maxima de falhas na validacao
-net.trainParam.min_grad = 0;      % Criterio de gradiente minimo
-net.trainParam.show     = 10;     % Iteracoes entre exibicoes na tela (preenchendo com 'NaN', nao exibe na tela)
-net.trainParam.time     = inf;    % Tempo maximo (em segundos) para o treinamento
+net.trainParam.lr       = 0.6;      % Taxa de aprendizado
+net.trainParam.goal     = 0;        % Criterio de minimo erro de treinamento
+net.trainParam.max_fail = 10;       % Criterio de quantidade maxima de falhas na validacao
+net.trainParam.min_grad = 0;        % Criterio de gradiente minimo
+net.trainParam.show     = 10;       % Iteracoes entre exibicoes na tela (preenchendo com 'NaN', nao exibe na tela)
+net.trainParam.time     = inf;      % Tempo maximo (em segundos) para o treinamento
 echo off
 fprintf('\nTreinando ...\n');
 
@@ -89,8 +89,16 @@ fprintf('MSE para o conjunto de teste: %6.5f \n',testPerformance);
 
 %     Calculando a matriz de confusão e a curva ROC referente aos resultados gerados pela
 %     rede acima.
+hold on;
+
 [~, C, ~, per] = confusion(testOutputs, netTestOutputs);
 disp(C);
+plotconfusion(testOutputs, netTestOutputs);
+plotroc(testOutputs, netTestOutputs);
+[tpr, ~, ~] = roc(testOutputs, netTestOutputs);
+fprintf('AUC: %6.5f \n', trapz(tpr{1,2}, tpr{1,1}));
+
+hold off;
 
 %[tpr, fpr, thresholds] = roc(testOutputs, netTestOutputs);
 
