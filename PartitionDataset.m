@@ -3,7 +3,7 @@ clc;
 close all;
 
 %% Parameters.
-balancingMethod = 0;
+balancingMethod = 1;
 
 %% Getting data from both classes.
 filename = 'PAKDD-PAKDD_GERMANO.cod';
@@ -39,16 +39,16 @@ if balancingMethod == 0
 elseif balancingMethod == 1
 %     % Parameters for this method.
 %     k = 1;
-%     m = 1;
-%     
-%     majorTrSet = kMeansUndersample(majorTrSet, minorTrSet, minorTrSetSize, m);
-%     majorValSet = kMeansUndersample(majorValSet, minorValSet, minorValSetSize, m);
-% %     majorTestSet = kMeansUndersample(majorTestSet, minorTestSet, k, m);
-    [~, majorTrSetAttrs] = kmeans(majorTrSet(:,1:end-2), minorTrSetSize);
-    [~, majorValSetAttrs] = kmeans(majorValSet(:,1:end-2), minorValSetSize);
+    m = 1;
     
-    majorTrSet = [majorTrSetAttrs, majorTrSet(1:size(majorTrSetAttrs, 1),end-1:end)];
-    majorValSet = [majorValSetAttrs, majorValSet(1:size(majorValSetAttrs, 1),end-1:end)];
+    majorTrSet = kMeansUndersample(majorTrSet, minorTrSet, minorTrSetSize, m);
+    majorValSet = kMeansUndersample(majorValSet, minorValSet, minorValSetSize, m);
+% %     majorTestSet = kMeansUndersample(majorTestSet, minorTestSet, k, m);
+%     [~, majorTrSetAttrs] = kmeans(majorTrSet(:,1:end-2), minorTrSetSize);
+%     [~, majorValSetAttrs] = kmeans(majorValSet(:,1:end-2), minorValSetSize);
+%     
+%     majorTrSet = [majorTrSetAttrs, majorTrSet(1:size(majorTrSetAttrs, 1),end-1:end)];
+%     majorValSet = [majorValSetAttrs, majorValSet(1:size(majorValSetAttrs, 1),end-1:end)];
 elseif balancingMethod == 2
     k = 3;
     

@@ -16,9 +16,9 @@ function set = kMeansUndersample(majorityClass, minorityClass, k, m)
     
     for i = 1:k
        cluster = data(idxs == i,:);
-       MA{i} = cluster(cluster(:,end) == 0, :);
+       MA{i} = cluster(cluster(:,end) == 1, :);
        sizesMA(i) = size(MA{i}, 1);
-       MI{i} = cluster(cluster(:,end) == 1, :);
+       MI{i} = cluster(cluster(:,end) == 0, :);
        
        if size(MI{i}, 1) == 0
            sizesMI(i) = 1;
@@ -28,23 +28,27 @@ function set = kMeansUndersample(majorityClass, minorityClass, k, m)
     end
     
     sizeMI = size(minorityClass, 1);
-    totalRatio = sum(sizesMA ./ sizesMI);
-    sizesSelectedMA = zeros(k, 1);
+    ratio = sizesMA ./ sizesMI;
+    totalRatio = sum(ratio);
+    sizesSelectedMA = (m*sizeMI/totalRatio)*ratio;
     
-    for i = 1:k
-       sizesSelectedMA(i) = m*sizeMI*sizesMA(i) / (totalRatio*sizesMI(i));
-    end
+%     for i = 1:k
+%        sizesSelectedMA(i) = m*sizeMI*sizesMA(i) / (totalRatio*sizesMI(i));
+%     end
     
-    sizeSelectedMA = sum(sizesSelectedMA);
+    sizeSelectedMA = round(sum(sizesSelectedMA));
     set = zeros(sizeSelectedMA, size(data, 2));
     start = 0;
     
     for i = 1:k
-        clusterMA = cell2mat(MA(i));
-        sizeSelected = sizesSelectedMA(i);
-        selectedSamples = randi(size(clusterMA, 1), sizeSelected, 1);
-        set(start+1:start+sizeSelected, :) = clusterMA(selectedSamples, :);
-        start = start + sizeSelected;
+        clusterMA = MA{i};
+        
+        if size(clusterMA, 1) ~= 0
+            sizeSelected = floor(sizesSelectedMA(i));
+            selectedSamples = randi(size(clusterMA, 1), sizeSelected, 1);
+            set(start+1:start+sizeSelected, :) = clusterMA(selectedSamples, :);
+            start = start + sizeSelected;
+        end
     end
 end
 
